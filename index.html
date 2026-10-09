@@ -35,7 +35,7 @@
             margin-bottom: 25px;
         }
 
-        h1 { margin: 0; color: var(--accent); font-size: 24px; }
+        h1 { margin: 0; color: var(--accent); font-size: 22px; }
 
         .tabs {
             display: flex;
@@ -56,6 +56,14 @@
         .tab-btn.active {
             background: var(--accent);
             color: #000;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         .card {
@@ -114,44 +122,85 @@
 
     <!-- Navigation Tabs -->
     <div class="tabs">
-        <button class="tab-btn active">Dashboard & Tasks</button>
-        <button class="tab-btn">Daily Report</button>
-        <button class="tab-btn">Team Directory</button>
+        <button class="tab-btn active" onclick="switchTab(event, 'dashboard')">Dashboard & Tasks</button>
+        <button class="tab-btn" onclick="switchTab(event, 'report')">Daily Report</button>
+        <button class="tab-btn" onclick="switchTab(event, 'directory')">Team Directory</button>
     </div>
 
-    <!-- Task Dashboard Section -->
-    <div class="card">
-        <h3>Active Tasks</h3>
-        <div class="grid">
-            <div style="background:#0f172a; padding:15px; border-radius:8px;">
-                <strong>Task: Team Portal Implementation</strong>
-                <p style="color:#94a3b8; font-size:13px;">Build 4-Tab Portal with Supabase Backend Integration</p>
-                <p>Assigned To: <b>Piyush Yadav</b></p>
-                <p>Status: <span style="color:#38bdf8;">In Progress</span></p>
+    <!-- TAB 1: Dashboard & Tasks -->
+    <div id="dashboard" class="tab-content active">
+        <div class="card">
+            <h3>Active Tasks</h3>
+            <div class="grid">
+                <div style="background:#0f172a; padding:15px; border-radius:8px;">
+                    <strong>Task: Team Portal Implementation</strong>
+                    <p style="color:#94a3b8; font-size:13px;">Build 4-Tab Portal with Supabase Backend Integration</p>
+                    <p>Assigned To: <b>Piyush Yadav</b></p>
+                    <p>Status: <span style="color:#38bdf8;">In Progress</span></p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Daily Progress Report Form -->
-    <div class="card">
-        <h3>Submit Daily Work Report</h3>
-        <form id="reportForm">
-            <label>Member Name</label>
-            <input type="text" value="Piyush Yadav" readonly>
+    <!-- TAB 2: Daily Progress Report Form -->
+    <div id="report" class="tab-content">
+        <div class="card">
+            <h3>Submit Daily Work Report</h3>
+            <form id="reportForm">
+                <label>Member Name</label>
+                <input type="text" placeholder="Enter your name">
 
-            <label>Role / Designation</label>
-            <input type="text" value="Data Store & Privacy Manager" readonly>
+                <label>Role / Designation</label>
+                <input type="text" placeholder="Enter your role">
 
-            <label>Today's Completed Work</label>
-            <textarea rows="3" placeholder="Describe completed tasks..."></textarea>
+                <label>Today's Completed Work</label>
+                <textarea rows="3" placeholder="Describe completed tasks..."></textarea>
 
-            <label>Today's Progress (%)</label>
-            <input type="number" placeholder="100">
+                <label>Today's Progress (%)</label>
+                <input type="number" placeholder="100">
 
-            <button type="button" class="btn-submit">Submit Progress Report</button>
-        </form>
+                <button type="button" class="btn-submit" onclick="alert('Report Submitted Successfully!')">Submit Progress Report</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- TAB 3: Team Directory -->
+    <div id="directory" class="tab-content">
+        <div class="card">
+            <h3>Team Members</h3>
+            <div class="grid">
+                <div style="background:#0f172a; padding:15px; border-radius:8px;">
+                    <strong>Piyush Yadav</strong>
+                    <p style="color:#94a3b8; font-size:13px; margin-bottom:5px;">Data Store & Privacy Manager</p>
+                    <span class="status-badge">Active</span>
+                </div>
+                <div style="background:#0f172a; padding:15px; border-radius:8px;">
+                    <strong>Kundan Sir</strong>
+                    <p style="color:#94a3b8; font-size:13px; margin-bottom:5px;">Team Lead / Management</p>
+                    <span class="status-badge">Active</span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+<script>
+    function switchTab(evt, tabId) {
+        // Hide all tab contents
+        const contents = document.querySelectorAll('.tab-content');
+        contents.forEach(content => content.classList.remove('active'));
+
+        // Remove active class from all buttons
+        const buttons = document.querySelectorAll('.tab-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        // Show selected tab content
+        document.getElementById(tabId).classList.add('active');
+
+        // Highlight active button
+        evt.currentTarget.classList.add('active');
+    }
+</script>
 
 </body>
 </html>
