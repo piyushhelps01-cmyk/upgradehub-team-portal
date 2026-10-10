@@ -169,14 +169,14 @@
             <h1>Upgrade Hub</h1>
             <p>Team Management Portal</p>
         </div>
-        <div><span class="status-badge" id="headerStatus">Database Connected</span></div>
+        <div><span class="status-badge" id="headerStatus">Official DB Connected</span></div>
     </header>
 
     <!-- VIEW 1: LOGIN / PROFILE SETUP -->
     <div id="loginView" class="view-section active">
         <div class="card" style="max-width: 450px; margin: 40px auto;">
             <h3>Member Portal Login / Setup</h3>
-            <p style="color: var(--text-sub); font-size: 13px; margin-bottom: 20px;">Enter your credentials to sync with Supabase database.</p>
+            <p style="color: var(--text-sub); font-size: 13px; margin-bottom: 20px;">Enter your credentials to sync with Upgrade Hub database.</p>
             <form onsubmit="handleLogin(event)">
                 <label>Full Name</label>
                 <input type="text" id="loginName" placeholder="Enter your full name" required>
@@ -213,8 +213,8 @@
             <div class="card">
                 <h3>Database Status & Active Tasks</h3>
                 <div class="stat-box">
-                    <strong>Supabase Persistence: Active</strong>
-                    <p style="color:var(--text-sub); font-size:13px; margin: 8px 0;">Your sessions and reports are now syncing with the live backend.</p>
+                    <strong>Official Supabase Persistence: Active</strong>
+                    <p style="color:var(--text-sub); font-size:13px; margin: 8px 0;">Your sessions and reports are now syncing with the live official backend.</p>
                     <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 3px 8px; border-radius: 6px; font-size: 12px;">Status: Online</span>
                 </div>
             </div>
@@ -295,9 +295,9 @@
 </div>
 
 <script>
-    // Initialize Supabase Client
-    const SUPABASE_URL = 'https://xrnvebyvrtfqkyzwlrfc.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybnZlYnl2cnRmcWt5endscmZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1ODI3NzUsImV4cCI6MjEwNzE1ODc3NX0.Pfrcaux-5ca_ewRFC4vYWK7IcArDUIXXMrhFdofO9aY';
+    // Initialize Supabase Client with Official Account Keys
+    const SUPABASE_URL = 'https://qpfbrglndhgzuozuihxe.supabase.co';
+    const SUPABASE_ANON_KEY = 'EyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFwZmJyZ2xuZGhnenVvenVpaHhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1ODY0MTMsImV4cCI6MjEwNzE1MjQxM30.8V9rqBx7pEZXgktFrmquabnAYzbbMNX1y1ghvyeYexE';
     
     const { createClient } = supabase;
     const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -356,7 +356,7 @@
             return;
         }
 
-        alert('Daily Report successfully saved to Supabase Database!');
+        alert('Daily Report successfully saved to Official Supabase Database!');
         document.getElementById('reportWork').value = '';
         document.getElementById('reportProgress').value = '';
     }
