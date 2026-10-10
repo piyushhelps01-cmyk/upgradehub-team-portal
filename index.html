@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upgrade Hub - Team Management Portal</title>
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
             --bg-color: #090d16;
@@ -69,7 +71,6 @@
             margin-bottom: 15px;
         }
 
-        /* Views management */
         .view-section { display: none; }
         .view-section.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
@@ -125,7 +126,6 @@
             font-size: 15px;
         }
 
-        /* Bottom Fixed Navigation Tabs (4 Tabs) */
         .tabs-bottom {
             position: fixed;
             bottom: 0; left: 0; right: 0;
@@ -169,14 +169,14 @@
             <h1>Upgrade Hub</h1>
             <p>Team Management Portal</p>
         </div>
-        <div><span class="status-badge" id="headerStatus">Authentication Required</span></div>
+        <div><span class="status-badge" id="headerStatus">Database Connected</span></div>
     </header>
 
-    <!-- VIEW 1: LOGIN / PROFILE SETUP (First Screen) -->
+    <!-- VIEW 1: LOGIN / PROFILE SETUP -->
     <div id="loginView" class="view-section active">
         <div class="card" style="max-width: 450px; margin: 40px auto;">
             <h3>Member Portal Login / Setup</h3>
-            <p style="color: var(--text-sub); font-size: 13px; margin-bottom: 20px;">Please enter your credentials to access your workspace and team directory.</p>
+            <p style="color: var(--text-sub); font-size: 13px; margin-bottom: 20px;">Enter your credentials to sync with Supabase database.</p>
             <form onsubmit="handleLogin(event)">
                 <label>Full Name</label>
                 <input type="text" id="loginName" placeholder="Enter your full name" required>
@@ -187,12 +187,12 @@
                 <label>Department</label>
                 <input type="text" id="loginDept" placeholder="e.g., Tech & Governance" required>
 
-                <button type="submit" class="btn-submit">Enter Workspace</button>
+                <button type="submit" class="btn-submit">Connect & Enter</button>
             </form>
         </div>
     </div>
 
-    <!-- VIEW 2: MAIN PORTAL (Visible after login) -->
+    <!-- VIEW 2: MAIN PORTAL -->
     <div id="portalView" class="view-section">
         
         <!-- TAB 1: Dashboard -->
@@ -211,11 +211,11 @@
                 </div>
             </div>
             <div class="card">
-                <h3>System Workspace & Active Tasks</h3>
+                <h3>Database Status & Active Tasks</h3>
                 <div class="stat-box">
-                    <strong>Current Sprint: 4-Tab Portal Build</strong>
-                    <p style="color:var(--text-sub); font-size:13px; margin: 8px 0;">Dynamic user sessions and role-based tracking are active.</p>
-                    <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 3px 8px; border-radius: 6px; font-size: 12px;">Status: Active</span>
+                    <strong>Supabase Persistence: Active</strong>
+                    <p style="color:var(--text-sub); font-size:13px; margin: 8px 0;">Your sessions and reports are now syncing with the live backend.</p>
+                    <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 3px 8px; border-radius: 6px; font-size: 12px;">Status: Online</span>
                 </div>
             </div>
         </div>
@@ -223,21 +223,21 @@
         <!-- TAB 2: Daily Report -->
         <div id="report" class="tab-content">
             <div class="card">
-                <h3>Daily Work Report Submission</h3>
-                <form onsubmit="event.preventDefault(); alert('Report submitted successfully by ' + document.getElementById('loginName').value + '!');">
-                    <label>Member Name (Auto-filled)</label>
+                <h3>Submit Daily Work Report</h3>
+                <form onsubmit="submitReport(event)">
+                    <label>Member Name</label>
                     <input type="text" id="reportName" readonly style="background: #070b12; color: var(--accent);">
                     
                     <label>Role</label>
                     <input type="text" id="reportRole" readonly style="background: #070b12; color: var(--accent);">
 
                     <label>Completed Work Details</label>
-                    <textarea rows="3" placeholder="Describe today's completed work..." required></textarea>
+                    <textarea id="reportWork" rows="3" placeholder="Describe today's completed work..." required></textarea>
                     
                     <label>Progress Percentage (%)</label>
-                    <input type="number" min="0" max="100" placeholder="100" required>
+                    <input type="number" id="reportProgress" min="0" max="100" placeholder="100" required>
                     
-                    <button type="submit" class="btn-submit">Submit Report</button>
+                    <button type="submit" class="btn-submit">Submit to Database</button>
                 </form>
             </div>
         </div>
@@ -245,17 +245,12 @@
         <!-- TAB 3: Team Directory -->
         <div id="directory" class="tab-content">
             <div class="card">
-                <h3>Team Directory & Active Session</h3>
+                <h3>Team Directory</h3>
                 <div class="grid">
                     <div class="stat-box">
                         <strong id="dirName">-</strong>
                         <p id="dirRole" style="color:var(--text-sub); font-size:12px; margin: 4px 0;">-</p>
-                        <span style="background: rgba(56, 189, 248, 0.15); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 10px;">Current User</span>
-                    </div>
-                    <div class="stat-box">
-                        <strong>Upgrade Hub Management</strong>
-                        <p style="color:var(--text-sub); font-size:12px; margin: 4px 0;">Core Team Governance</p>
-                        <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 2px 6px; border-radius: 4px; font-size: 10px;">Supervising</span>
+                        <span style="background: rgba(56, 189, 248, 0.15); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 10px;">Synced User</span>
                     </div>
                 </div>
             </div>
@@ -276,7 +271,7 @@
             </div>
         </div>
 
-        <!-- Bottom Navigation Bar (Visible after login) -->
+        <!-- Bottom Navigation Bar -->
         <nav class="tabs-bottom" id="bottomNav" style="display: none;">
             <button class="tab-btn active" onclick="switchTab(event, 'dashboard')">
                 <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
@@ -300,15 +295,31 @@
 </div>
 
 <script>
-    function handleLogin(event) {
+    // Initialize Supabase Client
+    const SUPABASE_URL = 'https://xrnvebyvrtfqkyzwlrfc.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhybnZlYnl2cnRmcWt5endscmZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE1ODI3NzUsImV4cCI6MjEwNzE1ODc3NX0.Pfrcaux-5ca_ewRFC4vYWK7IcArDUIXXMrhFdofO9aY';
+    
+    const { createClient } = supabase;
+    const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function handleLogin(event) {
         event.preventDefault();
         
-        // Get values entered by user
         const name = document.getElementById('loginName').value;
         const role = document.getElementById('loginRole').value;
         const dept = document.getElementById('loginDept').value;
 
-        // Assign to dynamic elements
+        // Save profile to Supabase database
+        const { error } = await _supabase
+            .from('profiles')
+            .insert([{ full_name: name, role: role, department: dept }]);
+
+        if (error) {
+            alert('Error saving to database: ' + error.message);
+            return;
+        }
+
+        // Update UI elements
         document.getElementById('displayName').innerText = name;
         document.getElementById('displayRole').innerText = role;
         document.getElementById('displayDept').innerText = dept;
@@ -319,12 +330,35 @@
         document.getElementById('dirName').innerText = name;
         document.getElementById('dirRole').innerText = role + ' (' + dept + ')';
 
-        document.getElementById('headerStatus').innerText = 'Session Active: ' + name;
+        document.getElementById('headerStatus').innerText = 'Synced: ' + name;
 
-        // Switch view from login to portal
+        // Switch view to portal
         document.getElementById('loginView').classList.remove('active');
         document.getElementById('portalView').classList.add('active');
         document.getElementById('bottomNav').style.display = 'flex';
+    }
+
+    async function submitReport(event) {
+        event.preventDefault();
+
+        const name = document.getElementById('reportName').value;
+        const role = document.getElementById('reportRole').value;
+        const work = document.getElementById('reportWork').value;
+        const progress = parseInt(document.getElementById('reportProgress').value);
+
+        // Save report to Supabase database
+        const { error } = await _supabase
+            .from('work_reports')
+            .insert([{ member_name: name, role: role, work_details: work, progress_percentage: progress }]);
+
+        if (error) {
+            alert('Error submitting report: ' + error.message);
+            return;
+        }
+
+        alert('Daily Report successfully saved to Supabase Database!');
+        document.getElementById('reportWork').value = '';
+        document.getElementById('reportProgress').value = '';
     }
 
     function switchTab(evt, tabId) {
