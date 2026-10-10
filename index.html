@@ -6,23 +6,26 @@
     <title>Upgrade Hub - Team Portal</title>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
+            --bg-color: #090d16;
+            --card-bg: #131b2e;
+            --card-border: #1e293b;
             --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.15);
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
+            --success: #10b981;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 20px 20px 90px 20px; /* Bottom padding for fixed tabs */
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
@@ -30,32 +33,40 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #334155;
+            border-bottom: 1px solid var(--card-border);
             padding-bottom: 15px;
-            margin-bottom: 25px;
-        }
-
-        h1 { margin: 0; color: var(--accent); font-size: 22px; }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
             margin-bottom: 20px;
         }
 
-        .tab-btn {
-            background: var(--card-bg);
-            border: 1px solid #334155;
-            color: var(--text-sub);
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
+        .brand h1 { margin: 0; color: var(--accent); font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+        .brand p { margin: 3px 0 0 0; color: var(--text-sub); font-size: 12px; }
+
+        .status-badge {
+            background: var(--accent-glow);
+            color: var(--accent);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
             font-weight: 600;
         }
 
-        .tab-btn.active {
-            background: var(--accent);
-            color: #000;
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            font-size: 16px;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .tab-content {
@@ -64,51 +75,101 @@
 
         .tab-content.active {
             display: block;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
-        .card {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #334155;
-            margin-bottom: 20px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 15px;
         }
 
-        label { display: block; margin-bottom: 5px; color: var(--text-sub); font-size: 14px; }
+        .stat-box {
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+        }
+
+        label { display: block; margin-bottom: 6px; color: var(--text-sub); font-size: 13px; font-weight: 500; }
         input, select, textarea {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 6px;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
             color: white;
             box-sizing: border-box;
             margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
         }
 
         button.btn-submit {
-            background: var(--accent);
-            color: #000;
+            background: linear-gradient(135deg, #38bdf8, #0284c7);
+            color: #090d16;
             border: none;
-            padding: 12px 20px;
-            border-radius: 6px;
-            font-weight: bold;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-weight: 700;
             cursor: pointer;
             width: 100%;
+            font-size: 15px;
+            transition: opacity 0.2s;
         }
 
-        .status-badge {
-            background: #0284c7;
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
+        button.btn-submit:active { opacity: 0.85; }
+
+        /* Bottom Fixed Navigation Tabs */
+        .tabs-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 10px;
+            z-index: 1000;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-sub);
+            padding: 8px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
             font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            color: var(--accent);
+            background: var(--accent-glow);
+        }
+
+        .tab-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
         }
     </style>
 </head>
@@ -116,27 +177,37 @@
 
 <div class="container">
     <header>
-        <h1>Upgrade Hub Team Portal</h1>
-        <div><span class="status-badge">Phase 1 Active</span></div>
+        <div class="brand">
+            <h1>Upgrade Hub</h1>
+            <p>Team Management Portal</p>
+        </div>
+        <div><span class="status-badge">Phase 1 Live</span></div>
     </header>
-
-    <!-- Navigation Tabs -->
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab(event, 'dashboard')">Dashboard & Tasks</button>
-        <button class="tab-btn" onclick="switchTab(event, 'report')">Daily Report</button>
-        <button class="tab-btn" onclick="switchTab(event, 'directory')">Team Directory</button>
-    </div>
 
     <!-- TAB 1: Dashboard & Tasks -->
     <div id="dashboard" class="tab-content active">
         <div class="card">
-            <h3>Active Tasks</h3>
+            <h3>System Overview</h3>
             <div class="grid">
-                <div style="background:#0f172a; padding:15px; border-radius:8px;">
-                    <strong>Task: Team Portal Implementation</strong>
-                    <p style="color:#94a3b8; font-size:13px;">Build 4-Tab Portal with Supabase Backend Integration</p>
-                    <p>Assigned To: <b>Piyush Yadav</b></p>
-                    <p>Status: <span style="color:#38bdf8;">In Progress</span></p>
+                <div class="stat-box">
+                    <span style="color: var(--text-sub); font-size: 12px;">ACTIVE PHASE</span>
+                    <p style="font-size: 18px; font-weight: bold; margin: 5px 0 0 0; color: var(--accent);">Phase 1 Architecture</p>
+                </div>
+                <div class="stat-box">
+                    <span style="color: var(--text-sub); font-size: 12px;">GOVERNANCE STATUS</span>
+                    <p style="font-size: 18px; font-weight: bold; margin: 5px 0 0 0; color: var(--success);">Compliant & Secure</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Assigned Tasks Workspace</h3>
+            <div class="stat-box">
+                <strong>Current Active Sprint: Team Portal Development</strong>
+                <p style="color:var(--text-sub); font-size:13px; margin: 8px 0;">Build 4-Tab Portal layout with clean UI and dynamic data handling.</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 13px;">
+                    <span>Status: <b style="color: var(--accent);">In Execution</b></span>
+                    <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 3px 8px; border-radius: 6px;">Priority: High</span>
                 </div>
             </div>
         </div>
@@ -145,21 +216,21 @@
     <!-- TAB 2: Daily Progress Report Form -->
     <div id="report" class="tab-content">
         <div class="card">
-            <h3>Submit Daily Work Report</h3>
-            <form id="reportForm">
-                <label>Member Name</label>
-                <input type="text" placeholder="Enter your name">
+            <h3>Daily Work Report Submission</h3>
+            <form id="reportForm" onsubmit="event.preventDefault(); alert('Report submitted successfully to the system!');">
+                <label>Your Full Name</label>
+                <input type="text" placeholder="Enter your official name" required>
 
-                <label>Role / Designation</label>
-                <input type="text" placeholder="Enter your role">
+                <label>Your Role / Designation</label>
+                <input type="text" placeholder="e.g., Data Manager, Developer" required>
 
-                <label>Today's Completed Work</label>
-                <textarea rows="3" placeholder="Describe completed tasks..."></textarea>
+                <label>Today's Completed Work Summary</label>
+                <textarea rows="3" placeholder="Describe what tasks you finished today..." required></textarea>
 
-                <label>Today's Progress (%)</label>
-                <input type="number" placeholder="100">
+                <label>Current Progress Percentage (%)</label>
+                <input type="number" min="0" max="100" placeholder="100" required>
 
-                <button type="button" class="btn-submit" onclick="alert('Report Submitted Successfully!')">Submit Progress Report</button>
+                <button type="submit" class="btn-submit">Submit Progress Report</button>
             </form>
         </div>
     </div>
@@ -167,22 +238,36 @@
     <!-- TAB 3: Team Directory -->
     <div id="directory" class="tab-content">
         <div class="card">
-            <h3>Team Members</h3>
+            <h3>Active Team Directory</h3>
             <div class="grid">
-                <div style="background:#0f172a; padding:15px; border-radius:8px;">
-                    <strong>Piyush Yadav</strong>
-                    <p style="color:#94a3b8; font-size:13px; margin-bottom:5px;">Data Store & Privacy Manager</p>
-                    <span class="status-badge">Active</span>
+                <div class="stat-box">
+                    <strong>Leadership / Management</strong>
+                    <p style="color:var(--text-sub); font-size:13px; margin: 5px 0 0 0;">Supervising Core Operations</p>
                 </div>
-                <div style="background:#0f172a; padding:15px; border-radius:8px;">
-                    <strong>Kundan Sir</strong>
-                    <p style="color:#94a3b8; font-size:13px; margin-bottom:5px;">Team Lead / Management</p>
-                    <span class="status-badge">Active</span>
+                <div class="stat-box">
+                    <strong>Active Contributors</strong>
+                    <p style="color:var(--text-sub); font-size:13px; margin: 5px 0 0 0;">Department & Tech Teams</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Bottom Navigation Tabs Bar -->
+<nav class="tabs-bottom">
+    <button class="tab-btn active" onclick="switchTab(event, 'dashboard')">
+        <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+        Dashboard
+    </button>
+    <button class="tab-btn" onclick="switchTab(event, 'report')">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        Daily Report
+    </button>
+    <button class="tab-btn" onclick="switchTab(event, 'directory')">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        Directory
+    </button>
+</nav>
 
 <script>
     function switchTab(evt, tabId) {
