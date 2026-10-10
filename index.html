@@ -69,6 +69,10 @@
             margin-bottom: 15px;
         }
 
+        /* Views management */
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+
         .tab-content { display: none; }
         .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
@@ -165,106 +169,164 @@
             <h1>Upgrade Hub</h1>
             <p>Team Management Portal</p>
         </div>
-        <div><span class="status-badge">Phase 1-3 Active</span></div>
+        <div><span class="status-badge" id="headerStatus">Authentication Required</span></div>
     </header>
 
-    <!-- TAB 1: Dashboard -->
-    <div id="dashboard" class="tab-content active">
-        <div class="card">
-            <h3>System Dashboard</h3>
-            <div class="grid">
-                <div class="stat-box">
-                    <span style="color: var(--text-sub); font-size: 12px;">ACTIVE SPRINT</span>
-                    <p style="font-size: 16px; font-weight: bold; margin: 5px 0 0 0; color: var(--accent);">4-Tab Portal Build</p>
-                </div>
-                <div class="stat-box">
-                    <span style="color: var(--text-sub); font-size: 12px;">GOVERNANCE</span>
-                    <p style="font-size: 16px; font-weight: bold; margin: 5px 0 0 0; color: var(--success);">Fully Compliant</p>
-                </div>
-            </div>
-        </div>
-        <div class="card">
-            <h3>Assigned Tasks Workspace</h3>
-            <div class="stat-box">
-                <strong>Task: Portal UI & Functionality Upgrade</strong>
-                <p style="color:var(--text-sub); font-size:13px; margin: 8px 0;">Ensure all 4 tabs, dynamic forms, and directory systems are working smoothly.</p>
-                <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 3px 8px; border-radius: 6px; font-size: 12px;">Status: In Progress</span>
-            </div>
-        </div>
-    </div>
+    <!-- VIEW 1: LOGIN / PROFILE SETUP (First Screen) -->
+    <div id="loginView" class="view-section active">
+        <div class="card" style="max-width: 450px; margin: 40px auto;">
+            <h3>Member Portal Login / Setup</h3>
+            <p style="color: var(--text-sub); font-size: 13px; margin-bottom: 20px;">Please enter your credentials to access your workspace and team directory.</p>
+            <form onsubmit="handleLogin(event)">
+                <label>Full Name</label>
+                <input type="text" id="loginName" placeholder="Enter your full name" required>
 
-    <!-- TAB 2: Daily Report -->
-    <div id="report" class="tab-content">
-        <div class="card">
-            <h3>Daily Work Report Submission</h3>
-            <form onsubmit="event.preventDefault(); alert('Report submitted successfully!');">
-                <label>Your Full Name</label>
-                <input type="text" placeholder="Enter your full name" required>
-                <label>Your Role / Designation</label>
-                <input type="text" placeholder="Enter your assigned role" required>
-                <label>Completed Work Details</label>
-                <textarea rows="3" placeholder="Describe today's completed work..." required></textarea>
-                <label>Progress Percentage (%)</label>
-                <input type="number" min="0" max="100" placeholder="100" required>
-                <button type="submit" class="btn-submit">Submit Report</button>
+                <label>Role / Designation</label>
+                <input type="text" id="loginRole" placeholder="e.g., Data Manager, Developer" required>
+
+                <label>Department</label>
+                <input type="text" id="loginDept" placeholder="e.g., Tech & Governance" required>
+
+                <button type="submit" class="btn-submit">Enter Workspace</button>
             </form>
         </div>
     </div>
 
-    <!-- TAB 3: Team Directory -->
-    <div id="directory" class="tab-content">
-        <div class="card">
-            <h3>Team Directory</h3>
-            <div class="grid">
-                <div class="stat-box">
-                    <strong>Core Management</strong>
-                    <p style="color:var(--text-sub); font-size:12px; margin: 4px 0;">Supervising overall operations & governance.</p>
+    <!-- VIEW 2: MAIN PORTAL (Visible after login) -->
+    <div id="portalView" class="view-section">
+        
+        <!-- TAB 1: Dashboard -->
+        <div id="dashboard" class="tab-content active">
+            <div class="card">
+                <h3>Welcome, <span id="displayName" style="color: var(--accent);"></span></h3>
+                <div class="grid">
+                    <div class="stat-box">
+                        <span style="color: var(--text-sub); font-size: 12px;">ASSIGNED ROLE</span>
+                        <p id="displayRole" style="font-size: 15px; font-weight: bold; margin: 5px 0 0 0; color: var(--accent);">-</p>
+                    </div>
+                    <div class="stat-box">
+                        <span style="color: var(--text-sub); font-size: 12px;">DEPARTMENT</span>
+                        <p id="displayDept" style="font-size: 15px; font-weight: bold; margin: 5px 0 0 0; color: var(--success);">-</p>
+                    </div>
                 </div>
+            </div>
+            <div class="card">
+                <h3>System Workspace & Active Tasks</h3>
                 <div class="stat-box">
-                    <strong>Development & Tech Team</strong>
-                    <p style="color:var(--text-sub); font-size:12px; margin: 4px 0;">Handling portal architecture & implementation.</p>
+                    <strong>Current Sprint: 4-Tab Portal Build</strong>
+                    <p style="color:var(--text-sub); font-size:13px; margin: 8px 0;">Dynamic user sessions and role-based tracking are active.</p>
+                    <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 3px 8px; border-radius: 6px; font-size: 12px;">Status: Active</span>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- TAB 4: Policy Center -->
-    <div id="policies" class="tab-content">
-        <div class="card">
-            <h3>Upgrade Hub Policy Center</h3>
-            <div class="stat-box" style="margin-bottom: 10px;">
-                <strong>1. Governance & Compliance</strong>
-                <p style="color:var(--text-sub); font-size:12px; margin: 4px 0;">All members must use official communication channels and adhere to deadlines.</p>
-            </div>
-            <div class="stat-box">
-                <strong>2. Data & Privacy Policy</strong>
-                <p style="color:var(--text-sub); font-size:12px; margin: 4px 0;">Strict protection of data storage and secure handling of credentials.</p>
+        <!-- TAB 2: Daily Report -->
+        <div id="report" class="tab-content">
+            <div class="card">
+                <h3>Daily Work Report Submission</h3>
+                <form onsubmit="event.preventDefault(); alert('Report submitted successfully by ' + document.getElementById('loginName').value + '!');">
+                    <label>Member Name (Auto-filled)</label>
+                    <input type="text" id="reportName" readonly style="background: #070b12; color: var(--accent);">
+                    
+                    <label>Role</label>
+                    <input type="text" id="reportRole" readonly style="background: #070b12; color: var(--accent);">
+
+                    <label>Completed Work Details</label>
+                    <textarea rows="3" placeholder="Describe today's completed work..." required></textarea>
+                    
+                    <label>Progress Percentage (%)</label>
+                    <input type="number" min="0" max="100" placeholder="100" required>
+                    
+                    <button type="submit" class="btn-submit">Submit Report</button>
+                </form>
             </div>
         </div>
+
+        <!-- TAB 3: Team Directory -->
+        <div id="directory" class="tab-content">
+            <div class="card">
+                <h3>Team Directory & Active Session</h3>
+                <div class="grid">
+                    <div class="stat-box">
+                        <strong id="dirName">-</strong>
+                        <p id="dirRole" style="color:var(--text-sub); font-size:12px; margin: 4px 0;">-</p>
+                        <span style="background: rgba(56, 189, 248, 0.15); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 10px;">Current User</span>
+                    </div>
+                    <div class="stat-box">
+                        <strong>Upgrade Hub Management</strong>
+                        <p style="color:var(--text-sub); font-size:12px; margin: 4px 0;">Core Team Governance</p>
+                        <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 2px 6px; border-radius: 4px; font-size: 10px;">Supervising</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: Policy Center -->
+        <div id="policies" class="tab-content">
+            <div class="card">
+                <h3>Upgrade Hub Policy Center</h3>
+                <div class="stat-box" style="margin-bottom: 10px;">
+                    <strong>1. Governance & Compliance</strong>
+                    <p style="color:var(--text-sub); font-size:12px; margin: 4px 0;">All members must adhere to official communication and deadlines.</p>
+                </div>
+                <div class="stat-box">
+                    <strong>2. Data & Privacy Policy</strong>
+                    <p style="color:var(--text-sub); font-size:12px; margin: 4px 0;">Secure handling of credentials and directory information.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation Bar (Visible after login) -->
+        <nav class="tabs-bottom" id="bottomNav" style="display: none;">
+            <button class="tab-btn active" onclick="switchTab(event, 'dashboard')">
+                <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                Dashboard
+            </button>
+            <button class="tab-btn" onclick="switchTab(event, 'report')">
+                <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                Report
+            </button>
+            <button class="tab-btn" onclick="switchTab(event, 'directory')">
+                <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                Directory
+            </button>
+            <button class="tab-btn" onclick="switchTab(event, 'policies')">
+                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                Policies
+            </button>
+        </nav>
+
     </div>
 </div>
 
-<!-- Bottom Navigation Bar (4 Tabs) -->
-<nav class="tabs-bottom">
-    <button class="tab-btn active" onclick="switchTab(event, 'dashboard')">
-        <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
-        Dashboard
-    </button>
-    <button class="tab-btn" onclick="switchTab(event, 'report')">
-        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-        Report
-    </button>
-    <button class="tab-btn" onclick="switchTab(event, 'directory')">
-        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-        Directory
-    </button>
-    <button class="tab-btn" onclick="switchTab(event, 'policies')">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
-        Policies
-    </button>
-</nav>
-
 <script>
+    function handleLogin(event) {
+        event.preventDefault();
+        
+        // Get values entered by user
+        const name = document.getElementById('loginName').value;
+        const role = document.getElementById('loginRole').value;
+        const dept = document.getElementById('loginDept').value;
+
+        // Assign to dynamic elements
+        document.getElementById('displayName').innerText = name;
+        document.getElementById('displayRole').innerText = role;
+        document.getElementById('displayDept').innerText = dept;
+
+        document.getElementById('reportName').value = name;
+        document.getElementById('reportRole').value = role;
+
+        document.getElementById('dirName').innerText = name;
+        document.getElementById('dirRole').innerText = role + ' (' + dept + ')';
+
+        document.getElementById('headerStatus').innerText = 'Session Active: ' + name;
+
+        // Switch view from login to portal
+        document.getElementById('loginView').classList.remove('active');
+        document.getElementById('portalView').classList.add('active');
+        document.getElementById('bottomNav').style.display = 'flex';
+    }
+
     function switchTab(evt, tabId) {
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
