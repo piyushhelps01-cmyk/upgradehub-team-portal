@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upgrade Hub - Team Portal</title>
+    <title>Upgrade Hub - Team Management Portal</title>
     <style>
         :root {
             --bg-color: #090d16;
@@ -21,7 +21,7 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 20px 20px 90px 20px; /* Bottom padding for fixed tabs */
+            padding: 20px 20px 90px 20px;
         }
 
         .container {
@@ -38,7 +38,7 @@
             margin-bottom: 20px;
         }
 
-        .brand h1 { margin: 0; color: var(--accent); font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+        .brand h1 { margin: 0; color: var(--accent); font-size: 20px; font-weight: 700; }
         .brand p { margin: 3px 0 0 0; color: var(--text-sub); font-size: 12px; }
 
         .status-badge {
@@ -69,14 +69,8 @@
             margin-bottom: 15px;
         }
 
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease-in-out;
-        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in-out; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(5px); }
@@ -125,23 +119,18 @@
             cursor: pointer;
             width: 100%;
             font-size: 15px;
-            transition: opacity 0.2s;
         }
 
-        button.btn-submit:active { opacity: 0.85; }
-
-        /* Bottom Fixed Navigation Tabs */
+        /* Bottom Fixed Navigation Tabs (4 Tabs) */
         .tabs-bottom {
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            bottom: 0; left: 0; right: 0;
             background: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(10px);
             border-top: 1px solid var(--card-border);
             display: flex;
             justify-content: space-around;
-            padding: 10px 10px;
+            padding: 8px 5px;
             z-index: 1000;
         }
 
@@ -149,16 +138,15 @@
             background: transparent;
             border: none;
             color: var(--text-sub);
-            padding: 8px 12px;
-            border-radius: 10px;
+            padding: 6px 10px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 11px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
-            transition: all 0.2s;
+            gap: 3px;
         }
 
         .tab-btn.active {
@@ -166,11 +154,7 @@
             background: var(--accent-glow);
         }
 
-        .tab-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
+        .tab-btn svg { width: 18px; height: 18px; fill: currentColor; }
     </style>
 </head>
 <body>
@@ -181,56 +165,48 @@
             <h1>Upgrade Hub</h1>
             <p>Team Management Portal</p>
         </div>
-        <div><span class="status-badge">Phase 1 Live</span></div>
+        <div><span class="status-badge">Phase 1-3 Active</span></div>
     </header>
 
-    <!-- TAB 1: Dashboard & Tasks -->
+    <!-- TAB 1: Dashboard -->
     <div id="dashboard" class="tab-content active">
         <div class="card">
-            <h3>System Overview</h3>
+            <h3>System Dashboard</h3>
             <div class="grid">
                 <div class="stat-box">
-                    <span style="color: var(--text-sub); font-size: 12px;">ACTIVE PHASE</span>
-                    <p style="font-size: 18px; font-weight: bold; margin: 5px 0 0 0; color: var(--accent);">Phase 1 Architecture</p>
+                    <span style="color: var(--text-sub); font-size: 12px;">ACTIVE SPRINT</span>
+                    <p style="font-size: 16px; font-weight: bold; margin: 5px 0 0 0; color: var(--accent);">4-Tab Portal Build</p>
                 </div>
                 <div class="stat-box">
-                    <span style="color: var(--text-sub); font-size: 12px;">GOVERNANCE STATUS</span>
-                    <p style="font-size: 18px; font-weight: bold; margin: 5px 0 0 0; color: var(--success);">Compliant & Secure</p>
+                    <span style="color: var(--text-sub); font-size: 12px;">GOVERNANCE</span>
+                    <p style="font-size: 16px; font-weight: bold; margin: 5px 0 0 0; color: var(--success);">Fully Compliant</p>
                 </div>
             </div>
         </div>
-
         <div class="card">
             <h3>Assigned Tasks Workspace</h3>
             <div class="stat-box">
-                <strong>Current Active Sprint: Team Portal Development</strong>
-                <p style="color:var(--text-sub); font-size:13px; margin: 8px 0;">Build 4-Tab Portal layout with clean UI and dynamic data handling.</p>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: 13px;">
-                    <span>Status: <b style="color: var(--accent);">In Execution</b></span>
-                    <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 3px 8px; border-radius: 6px;">Priority: High</span>
-                </div>
+                <strong>Task: Portal UI & Functionality Upgrade</strong>
+                <p style="color:var(--text-sub); font-size:13px; margin: 8px 0;">Ensure all 4 tabs, dynamic forms, and directory systems are working smoothly.</p>
+                <span style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 3px 8px; border-radius: 6px; font-size: 12px;">Status: In Progress</span>
             </div>
         </div>
     </div>
 
-    <!-- TAB 2: Daily Progress Report Form -->
+    <!-- TAB 2: Daily Report -->
     <div id="report" class="tab-content">
         <div class="card">
             <h3>Daily Work Report Submission</h3>
-            <form id="reportForm" onsubmit="event.preventDefault(); alert('Report submitted successfully to the system!');">
+            <form onsubmit="event.preventDefault(); alert('Report submitted successfully!');">
                 <label>Your Full Name</label>
-                <input type="text" placeholder="Enter your official name" required>
-
+                <input type="text" placeholder="Enter your full name" required>
                 <label>Your Role / Designation</label>
-                <input type="text" placeholder="e.g., Data Manager, Developer" required>
-
-                <label>Today's Completed Work Summary</label>
-                <textarea rows="3" placeholder="Describe what tasks you finished today..." required></textarea>
-
-                <label>Current Progress Percentage (%)</label>
+                <input type="text" placeholder="Enter your assigned role" required>
+                <label>Completed Work Details</label>
+                <textarea rows="3" placeholder="Describe today's completed work..." required></textarea>
+                <label>Progress Percentage (%)</label>
                 <input type="number" min="0" max="100" placeholder="100" required>
-
-                <button type="submit" class="btn-submit">Submit Progress Report</button>
+                <button type="submit" class="btn-submit">Submit Report</button>
             </form>
         </div>
     </div>
@@ -238,22 +214,37 @@
     <!-- TAB 3: Team Directory -->
     <div id="directory" class="tab-content">
         <div class="card">
-            <h3>Active Team Directory</h3>
+            <h3>Team Directory</h3>
             <div class="grid">
                 <div class="stat-box">
-                    <strong>Leadership / Management</strong>
-                    <p style="color:var(--text-sub); font-size:13px; margin: 5px 0 0 0;">Supervising Core Operations</p>
+                    <strong>Core Management</strong>
+                    <p style="color:var(--text-sub); font-size:12px; margin: 4px 0;">Supervising overall operations & governance.</p>
                 </div>
                 <div class="stat-box">
-                    <strong>Active Contributors</strong>
-                    <p style="color:var(--text-sub); font-size:13px; margin: 5px 0 0 0;">Department & Tech Teams</p>
+                    <strong>Development & Tech Team</strong>
+                    <p style="color:var(--text-sub); font-size:12px; margin: 4px 0;">Handling portal architecture & implementation.</p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 4: Policy Center -->
+    <div id="policies" class="tab-content">
+        <div class="card">
+            <h3>Upgrade Hub Policy Center</h3>
+            <div class="stat-box" style="margin-bottom: 10px;">
+                <strong>1. Governance & Compliance</strong>
+                <p style="color:var(--text-sub); font-size:12px; margin: 4px 0;">All members must use official communication channels and adhere to deadlines.</p>
+            </div>
+            <div class="stat-box">
+                <strong>2. Data & Privacy Policy</strong>
+                <p style="color:var(--text-sub); font-size:12px; margin: 4px 0;">Strict protection of data storage and secure handling of credentials.</p>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Bottom Navigation Tabs Bar -->
+<!-- Bottom Navigation Bar (4 Tabs) -->
 <nav class="tabs-bottom">
     <button class="tab-btn active" onclick="switchTab(event, 'dashboard')">
         <svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
@@ -261,28 +252,23 @@
     </button>
     <button class="tab-btn" onclick="switchTab(event, 'report')">
         <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-        Daily Report
+        Report
     </button>
     <button class="tab-btn" onclick="switchTab(event, 'directory')">
         <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
         Directory
     </button>
+    <button class="tab-btn" onclick="switchTab(event, 'policies')">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+        Policies
+    </button>
 </nav>
 
 <script>
     function switchTab(evt, tabId) {
-        // Hide all tab contents
-        const contents = document.querySelectorAll('.tab-content');
-        contents.forEach(content => content.classList.remove('active'));
-
-        // Remove active class from all buttons
-        const buttons = document.querySelectorAll('.tab-btn');
-        buttons.forEach(btn => btn.classList.remove('active'));
-
-        // Show selected tab content
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
-
-        // Highlight active button
         evt.currentTarget.classList.add('active');
     }
 </script>
